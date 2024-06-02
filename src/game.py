@@ -1,6 +1,7 @@
 import pygame
+
 from board import Board
-# from square import Square
+from dragger import Dragger
 
 # Screen dimensions
 WIDTH = 800
@@ -16,6 +17,7 @@ class Game:
 
     def __init__(self):
         self.board = Board()
+        self.dragger = Dragger()
 
 # Show Methods
     def show_bg(self, surface):
@@ -37,7 +39,10 @@ class Game:
                 if self.board.squares[row][col].has_peice():
                     peice = self.board.squares[row][col].peice
 
-                    img = pygame.image.load(peice.texture)
-                    img_center = col * SQSIZE + SQSIZE // 2, row * SQSIZE + SQSIZE // 2
-                    peice.texture_rect = img.get_rect(center=img_center)
-                    surface.blit(img, peice.texture_rect)
+                    # all peices except dragging peice
+                    if peice != self.dragger.peice:
+                        peice.set_texture(size=80)
+                        img = pygame.image.load(peice.texture)
+                        img_center = col * SQSIZE + SQSIZE // 2, row * SQSIZE + SQSIZE // 2
+                        peice.texture_rect = img.get_rect(center=img_center)
+                        surface.blit(img, peice.texture_rect)
