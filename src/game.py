@@ -46,3 +46,17 @@ class Game:
                         img_center = col * SQSIZE + SQSIZE // 2, row * SQSIZE + SQSIZE // 2
                         peice.texture_rect = img.get_rect(center=img_center)
                         surface.blit(img, peice.texture_rect)
+
+    def show_moves(self, surface):
+        if self.dragger.dragging:
+            piece = self.dragger.peice
+
+            # loop thru all valid moves
+            for move in piece.moves:
+                # color
+                color = '#C86464' if move.final.row + move.final.col % 2 == 0 else '#C84646'
+                # cricle
+                cricle = move.final.col * SQSIZE + \
+                    SQSIZE // 2, move.final.row * SQSIZE + SQSIZE // 2
+                # blit
+                pygame.draw.circle(surface, color, cricle, 20)

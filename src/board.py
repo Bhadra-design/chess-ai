@@ -44,20 +44,21 @@ class Board:
                 (row + 1, col + 2),
                 (row + 1, col - 2),
             ]
-            
+
             for possible_move in possible_moves:
                 possible_move_row, possible_move_col = possible_move
-                
+
                 if Square.in_range(possible_move_row, possible_move_col):
                     if self.squares[possible_move_row][possible_move_col].isempty_or_rival(pecie.color):
                         # create a sqaure for new move
                         initial = Square(row, col)
-                        final = Square(possible_move_row, possible_move_col) # TODO: piece=pecie
+                        # TODO: piece=pecie
+                        final = Square(possible_move_row, possible_move_col)
                         # create a new move
                         move = Move(initial, final)
                         # append new valid move
                         pecie.add_move(move)
-                
+
         if isinstance(pecie, Pawn):
             pass
 
