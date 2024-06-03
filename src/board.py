@@ -1,5 +1,6 @@
 from square import Square
 from piece import *
+from move import Move
 
 # Screen dimensions
 WIDTH = 800
@@ -25,6 +26,55 @@ class Board:
         for row in range(ROWS):
             for col in range(COLS):
                 self.squares[row][col] = Square(row, col)
+
+    def calc_moves(self, pecie, row, col):
+        '''
+        Calculate all possible moves (leagal moves) for a given piece on a given square
+        '''
+
+        def knight_moves():
+            # 8 possible moves for a knight
+            possible_moves = [
+                (row - 2, col + 1),
+                (row - 2, col - 1),
+                (row - 1, col + 2),
+                (row - 1, col - 2),
+                (row + 2, col + 1),
+                (row + 2, col - 1),
+                (row + 1, col + 2),
+                (row + 1, col - 2),
+            ]
+            
+            for possible_move in possible_moves:
+                possible_move_row, possible_move_col = possible_move
+                
+                if Square.in_range(possible_move_row, possible_move_col):
+                    if self.squares[possible_move_row][possible_move_col].isempty_or_rival(pecie.color):
+                        # create a sqaure for new move
+                        initial = Square(row, col)
+                        final = Square(possible_move_row, possible_move_col) # TODO: piece=pecie
+                        # create a new move
+                        move = Move(initial, final)
+                        # append new valid move
+                        pecie.add_move(move)
+                
+        if isinstance(pecie, Pawn):
+            pass
+
+        elif isinstance(pecie, Knight):
+            knight_moves()
+
+        elif isinstance(pecie, Bishop):
+            pass
+
+        elif isinstance(pecie, Rook):
+            pass
+
+        elif isinstance(pecie, Queen):
+            pass
+
+        elif isinstance(pecie, King):
+            pass
 
     def _add_pieces(self, color):
         row_pawn, row_other = (6, 7) if color == 'white' else (1, 0)
